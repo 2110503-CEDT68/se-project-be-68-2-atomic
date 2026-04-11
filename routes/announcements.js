@@ -11,9 +11,6 @@ const router = express.Router();
 
 const { protect, authorize } = require("../middleware/auth");
 
-// GET all announcements
-router.route('/').get(getAnnouncements)
-
 // POST create announcement (admin only)
 router.route('/')
   .post(protect, authorize('admin'), createAnnouncement);
@@ -25,3 +22,5 @@ router.route('/:id')
   .get(getAnnouncement)
   .put(protect, authorize('admin'), updateAnnouncement)
   .delete(protect,authorize('admin'),deleteAnnouncement)
+
+module.exports = router;
