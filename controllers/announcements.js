@@ -25,7 +25,10 @@ exports.getAnnouncements = async (req,res,next) => {
 	queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
 
 	// Finding Resource
-	query = Dentist.find(JSON.parse(queryStr)).populate('bookings'); // Unxecute Yet
+	query = Announcement.find(JSON.parse(queryStr)).populate({
+        path: 'author',
+        select: 'name email'
+    });
 
 	// Select Fields
 	if(req.query.select){ // If query includes select
@@ -49,11 +52,11 @@ exports.getAnnouncements = async (req,res,next) => {
 
 	try{
 		// Pagination (Cont.)
-		const total = await Dentist.countDocuments();
+		const total = await Announcement.countDocuments();
 		query = query.skip(startIndex).limit(limit); // Set the query to show in specified page range
 
 		// Executing Query
-		const dentists = await query;
+		const announcements = await query;
 
 		// Pagination Result
 		const pagination = {};
@@ -68,9 +71,9 @@ exports.getAnnouncements = async (req,res,next) => {
 
 		res.status(200).json({
 			success:true,
-			count: dentists.length,
+			count: announcements.length,
 			pagination,
-			data: dentists
+			data: announcements
 		});
 	}catch(err){
 		console.log(err);
@@ -89,7 +92,10 @@ exports.getAnnouncements = async (req,res,next) => {
 exports.getAnnouncement = async (req,res,next)=>{
 
 	try{
-		const announcement = await Announcement.findById(req.params.id);
+		const announcement = await Announcement.findById(req.params.id).populate({
+            path: 'author',
+            select: 'name email'
+        });
 
 		if(!announcement){
 			return res.status(404).json({
@@ -100,7 +106,7 @@ exports.getAnnouncement = async (req,res,next)=>{
 
 		res.status(200).json({
 			success:true,
-			data: dentist
+			data: announcement
 		});
 	}catch(err){
 		console.log(err);
@@ -119,6 +125,7 @@ exports.getAnnouncement = async (req,res,next)=>{
 exports.createAnnouncement = async (req,res,next)=>{
 
 	try{
+        req.body.author = req.user.id;
 		const announcement = await Announcement.create(req.body);
 
 		res.status(201).json({
@@ -142,6 +149,7 @@ exports.createAnnouncement = async (req,res,next)=>{
 exports.updateAnnouncement = async (req,res,next)=>{
 
 	try{
+        const updateData = { ...req.body, isEdited: true };
 		const announcement = await Announcement.findByIdAndUpdate(
 			req.params.id,
 			req.body,
@@ -158,7 +166,7 @@ exports.updateAnnouncement = async (req,res,next)=>{
 
 		res.status(200).json({
 			success:true,
-			data: dentist
+			data: announcement
 		});
 	}catch(err){
 		console.log(err);
