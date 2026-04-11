@@ -1,3 +1,7 @@
+// Fixed : Error: querySrv ECONNREFUSED _mongodb._tcp.vacqcluster.cwrmhjl.mongodb.net
+const { setServers } = require("node:dns/promises");
+setServers(["1.1.1.1", "8.8.8.8"]);
+
 const express = require('express');
 const dotenv = require('dotenv');
 // Sanitize Data
