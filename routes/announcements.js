@@ -19,4 +19,5 @@ router.route('/')
 // PUT update announcement by id (admin only)
 router.route('/:id')
   .get(getAnnouncement)
-  .put(protect, authorize('admin'), updateAnnouncement);
+  .put(protect, authorize('admin'), updateAnnouncement)
+  .delete(protect,authorize('admin'),deleteAnnouncement)
