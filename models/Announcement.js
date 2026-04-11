@@ -6,7 +6,7 @@ const AnnouncementSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    name:{
+    title:{
         type: String,
         required: [true, 'Please add a title'],
         unique: true,

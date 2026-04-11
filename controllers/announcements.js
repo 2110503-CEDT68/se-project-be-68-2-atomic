@@ -1,5 +1,4 @@
 const Announcement = require('../models/Announcement');
-const User = require('../models/User');
 
 
 // @desc	Get all announcements
