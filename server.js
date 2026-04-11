@@ -19,6 +19,7 @@ const hpp = require('hpp');
 const dentists = require('./routes/dentists');
 const auth = require('./routes/auth');
 const bookings = require('./routes/bookings');
+const announcement = require('./routes/announcements');
 
 // Mongo Connection
 const connectDB = require('./config/db');
@@ -56,6 +57,7 @@ app.use(hpp());
 app.use('/api/dentists', dentists);
 app.use('/api/auth', auth);
 app.use('/api/bookings', bookings);
+app.use('/api/announcement', announcement);
 
 const PORT = process.env.PORT || 5003;
 const server = app.listen(PORT, console.log('Server running in ', process.env.NODE_ENV, ' mode on port ', PORT));
