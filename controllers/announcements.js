@@ -1,5 +1,4 @@
 const Announcement = require('../models/Announcement');
-const User = require('../models/User');
 
 
 // @desc	Get all announcements
@@ -153,8 +152,7 @@ exports.updateAnnouncement = async (req,res,next)=>{
         const updateData = { ...req.body, isEdited: true };
 		const announcement = await Announcement.findByIdAndUpdate(
 			req.params.id,
-			req.body,
-			{ isEdited: true },
+			updateData,
 			{ new:true, runValidators:true }
 		);
 

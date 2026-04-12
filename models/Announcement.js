@@ -3,10 +3,10 @@ const mongoose = require('mongoose');
 const AnnouncementSchema = new mongoose.Schema({
     author:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'author',
+        ref: 'User',
         required: true
     },
-    name:{
+    title:{
         type: String,
         required: [true, 'Please add a title'],
         unique: true,
