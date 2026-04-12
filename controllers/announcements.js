@@ -18,6 +18,7 @@ exports.getAnnouncements = async (req,res,next) => {
 	removeFields.forEach(param=>delete reqQuery[param]);
 	console.log(reqQuery);
 
+
 	// Create Query String
 	let queryStr = JSON.stringify(reqQuery);
 

@@ -12,7 +12,9 @@ const router = express.Router();
 const { protect, authorize } = require("../middleware/auth");
 
 // POST create announcement (admin only)
+// GET  Get all announcement ()
 router.route('/')
+  .get(protect,getAnnouncements)
   .post(protect, authorize('admin'), createAnnouncement);
 
 // GET single announcement by id
@@ -22,3 +24,5 @@ router.route('/:id')
   .get(getAnnouncement)
   .put(protect, authorize('admin'), updateAnnouncement)
   .delete(protect,authorize('admin'),deleteAnnouncement)
+
+module.exports = router;
