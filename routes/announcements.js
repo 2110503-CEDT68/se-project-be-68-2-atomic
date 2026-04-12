@@ -13,6 +13,7 @@ const { protect, authorize } = require("../middleware/auth");
 
 // POST create announcement (admin only)
 router.route('/')
+	.get(getAnnouncements)
   .post(protect, authorize('admin'), createAnnouncement);
 
 // GET single announcement by id
