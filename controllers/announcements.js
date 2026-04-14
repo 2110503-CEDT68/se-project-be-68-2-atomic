@@ -53,6 +53,7 @@ exports.getAnnouncements = async (req,res,next) => {
 	try{
 		// Pagination (Cont.)
 		const total = await Announcement.countDocuments();
+
 		query = query.skip(startIndex).limit(limit); // Set the query to show in specified page range
 
 		// Executing Query
@@ -60,6 +61,8 @@ exports.getAnnouncements = async (req,res,next) => {
 
 		// Pagination Result
 		const pagination = {};
+
+		pagination.total = total;
 
 		if(endIndex < total){
 			pagination.next = {page: page+1, limit};

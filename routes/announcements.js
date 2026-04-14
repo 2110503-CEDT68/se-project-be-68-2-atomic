@@ -11,10 +11,11 @@ const router = express.Router();
 
 const { protect, authorize } = require("../middleware/auth");
 
+// GET all announcements
 // POST create announcement (admin only)
 // GET  Get all announcement ()
 router.route('/')
-  .get(protect,getAnnouncements)
+  .get(getAnnouncements)
   .post(protect, authorize('admin'), createAnnouncement);
 
 // GET single announcement by id
