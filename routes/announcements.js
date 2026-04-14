@@ -12,7 +12,7 @@ const router = express.Router();
 const { protect, authorize } = require("../middleware/auth");
 
 // GET all announcements
-// POST create announcement (admin only)
+// POST create announcement (Admin only)
 router.route('/')
   .get(getAnnouncements)
   .post(protect, authorize('admin'), createAnnouncement);
