@@ -2,6 +2,7 @@
 const { setServers } = require("node:dns/promises");
 setServers(["1.1.1.1", "8.8.8.8"]);
 
+const cors = require('cors');
 const express = require('express');
 const dotenv = require('dotenv');
 // Sanitize Data
@@ -33,6 +34,16 @@ connectDB();
 
 const app = express();
 // Body Parser
+app.use(cors({
+    // Wrap multiple origins in an array []
+    origin: [
+        'http://localhost:3000', 
+        'https://frontend-project-sigma-eight.vercel.app' // Remove trailing slash
+    ], 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    credentials: true
+}));
+
 app.use(express.json());
 // Cookie Parser
 app.use(cookieParser());
