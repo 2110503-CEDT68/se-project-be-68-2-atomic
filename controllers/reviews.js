@@ -79,3 +79,30 @@ exports.getReviews = async (req, res, next) => {
         });
     }
 }
+
+// @desc    Get single review
+// @route   GET /api/reviews/:id
+// @access  Public
+exports.getReview = async (req, res, next) => {
+    try{
+        const review = await Review.findById(req.params.id).populate('dentist').populate('user');
+
+        if(!review){
+            return res.status(404).json({
+                success:false,
+                message:`No review with id ${req.params.id}`
+            });
+        }
+
+        res.status(200).json({
+            success:true,
+            data: review
+        });
+    }catch(err){
+        console.log(err.stack);
+        res.status(500).json({
+            success:false,
+            message: "Cannot get review"
+        });
+    }
+}
