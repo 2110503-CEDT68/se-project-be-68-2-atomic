@@ -57,7 +57,6 @@ ReviewSchema.statics.getAverageRating = async function(dentistId) {
             $group: {
                 _id: '$dentist',
                 averageRating: { $avg: '$rating' },
-                numberOfReviews: { $sum: 1 }
             }
         }
     ]);
@@ -65,13 +64,11 @@ ReviewSchema.statics.getAverageRating = async function(dentistId) {
     try {
         if (obj[0]) {
             await mongoose.model('Dentist').findByIdAndUpdate(dentistId, {
-                averageRating: Math.round(obj[0].averageRating * 10) / 10,
-                numberOfReviews: obj[0].numberOfReviews
+                averageRating: Math.round(obj[0].averageRating * 10) / 10
             });
         } else {
             await mongoose.model('Dentist').findByIdAndUpdate(dentistId, {
-                averageRating: 0,
-                numberOfReviews: 0
+                averageRating: 0
             });
         }
     } catch (err) {

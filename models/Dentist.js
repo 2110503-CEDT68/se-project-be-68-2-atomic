@@ -31,10 +31,6 @@ const DentistSchema = new mongoose.Schema({
     averageRating: {
         type: Number,
         default: 0
-    },
-    numberOfReviews: {
-        type: Number,
-        default: 0
     }
 },{
     toJSON: {virtuals: true},

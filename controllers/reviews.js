@@ -48,7 +48,7 @@ exports.getReviews = async (req, res, next) => {
 
     try{
         // Pagination (Cont.)
-        const total = await Review.countDocuments();
+        const total = await Review.countDocuments({isDeleted: false});
         query = query.skip(startIndex).limit(limit); // Set the query to show in specified page range
 
         // Executing Query
