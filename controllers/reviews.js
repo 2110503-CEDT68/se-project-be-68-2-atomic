@@ -24,7 +24,7 @@ exports.getReviews = async (req, res, next) => {
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
 
     // Finding Resource
-    query = Review.find(JSON.parse(queryStr)).populate({path: 'dentist', select: 'name'}).populate({path: 'user', select: 'name'}); // Unxecute Yet
+    query = Review.find({ isDeleted: false, ...JSON.parse(queryStr) }).populate({path: 'dentist', select: 'name'}).populate({path: 'user', select: 'name'}); // Unxecute Yet
 
     // Select Fields
     if(req.query.select){ // If query includes select
@@ -87,7 +87,7 @@ exports.getReview = async (req, res, next) => {
     try{
         const review = await Review.findById(req.params.id).populate('dentist').populate('user');
 
-        if(!review){
+        if(!review || review.isDeleted){
             return res.status(404).json({
                 success:false,
                 message:`No review with id ${req.params.id}`
@@ -151,7 +151,9 @@ exports.updateReview = async (req, res, next) => {
             });
         }
 
-        review = await Review.findByIdAndUpdate(req.params.id, {isEdited: true, ...req.body}, {new:true, runValidators:true});
+        review.set(req.body);
+        review.isEdited = true;
+        await review.save();
 
         res.status(200).json({
             success:true,
@@ -187,7 +189,9 @@ exports.deleteReview = async (req, res, next) => {
             });
         }
 
-        review = await Review.findByIdAndUpdate(req.params.id, {isDeleted: true, deletedAt: Date.now()}, {new:true, runValidators:true});
+        review.isDeleted = true;
+        review.deletedAt = Date.now();
+        await review.save();
 
         res.status(200).json({
             success:true,
