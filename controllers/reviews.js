@@ -108,12 +108,13 @@ exports.getReview = async (req, res, next) => {
 }
 
 // @desc    Create a new review
-// @route   POST /api/reviews
+// @route   POST /api/dentists/:dentistId/reviews
 // @access  Private
 exports.createReview = async (req, res, next) => {
     try{
         // Add user from the request (Protect this route)
         req.body.user = req.user.id;
+        req.body.dentist = req.params.dentistId;
 
         const review = await Review.create(req.body);
 

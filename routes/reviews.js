@@ -7,6 +7,10 @@ const router = express.Router();
 
 router.route('/')
     .get(getReviews)
+
+// Create Review Route (Nested)
+// @route POST /api/dentists/:dentistId/reviews
+router.route('/')
     .post(protect, createReview);
 
 router.route('/:id')
