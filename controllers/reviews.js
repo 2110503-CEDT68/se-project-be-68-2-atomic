@@ -106,3 +106,26 @@ exports.getReview = async (req, res, next) => {
         });
     }
 }
+
+// @desc    Create a new review
+// @route   POST /api/reviews
+// @access  Private (User)
+exports.createReview = async (req, res, next) => {
+    try{
+        // Add user from the request (Protect this route)
+        req.body.user = req.user.id;
+
+        const review = await Review.create(req.body);
+
+        res.status(201).json({
+            success:true,
+            data: review
+        });
+    }catch(err){
+        console.log(err.stack);
+        res.status(400).json({
+            success:false,
+            message: "Cannot create review"
+        });
+    }
+}
