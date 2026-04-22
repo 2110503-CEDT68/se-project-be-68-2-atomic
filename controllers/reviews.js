@@ -85,7 +85,7 @@ exports.getReviews = async (req, res, next) => {
 // @access  Public
 exports.getReview = async (req, res, next) => {
     try{
-        const review = await Review.findById(req.params.id).populate('dentist').populate('user');
+        const review = await Review.findById(req.params.id).populate({path: 'dentist', select: 'name'}).populate({path: 'user', select: 'name'});
 
         if(!review || review.isDeleted){
             return res.status(404).json({
