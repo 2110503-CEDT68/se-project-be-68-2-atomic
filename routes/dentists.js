@@ -9,6 +9,7 @@ const {
 } = require("../controllers/dentists");
 
 const bookings = require("./bookings");
+const reviews = require('./reviews');
 
 const router = express.Router();
 
