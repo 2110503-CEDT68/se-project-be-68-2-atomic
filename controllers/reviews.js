@@ -109,7 +109,7 @@ exports.getReview = async (req, res, next) => {
 
 // @desc    Create a new review
 // @route   POST /api/reviews
-// @access  Private (User)
+// @access  Private
 exports.createReview = async (req, res, next) => {
     try{
         // Add user from the request (Protect this route)
@@ -126,6 +126,42 @@ exports.createReview = async (req, res, next) => {
         res.status(400).json({
             success:false,
             message: "Cannot create review"
+        });
+    }
+}
+
+// @desc    Update a review
+// @route   PUT /api/reviews/:id
+// @access  Private (User)
+exports.updateReview = async (req, res, next) => {
+    try{
+        let review = await Review.findById(req.params.id);
+
+        if(!review){
+            return res.status(404).json({
+                success:false,
+                message:`No review with id ${req.params.id}`
+            });
+        }
+
+        if(review.user.toString() !== req.user.id && req.user.role !== 'admin'){
+            return res.status(401).json({
+                success:false,
+                message: "Not authorized to update"
+            });
+        }
+
+        review = await Review.findByIdAndUpdate(req.params.id, {isEdited: true, ...req.body}, {new:true, runValidators:true});
+
+        res.status(200).json({
+            success:true,
+            data: review
+        });
+    }catch(err){
+        console.log(err.stack);
+        res.status(500).json({
+            success:false,
+            message: "Cannot update review"
         });
     }
 }
