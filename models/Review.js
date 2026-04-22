@@ -86,4 +86,12 @@ ReviewSchema.pre('remove', function() {
     this.constructor.getAverageRating(this.dentist);
 });
 
+// Hide sensitive fields
+ReviewSchema.methods.toJSON = function() {
+    const obj = this.toObject();
+    delete obj.isDeleted;
+    delete obj.deletedAt;
+    return obj;
+};
+
 module.exports = mongoose.model('Review', ReviewSchema);
