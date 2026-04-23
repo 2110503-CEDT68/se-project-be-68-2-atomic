@@ -21,6 +21,7 @@ const dentists = require('./routes/dentists');
 const auth = require('./routes/auth');
 const bookings = require('./routes/bookings');
 const announcements = require('./routes/announcements');
+const reviews = require('./routes/reviews');
 
 // Mongo Connection
 const connectDB = require('./config/db');
@@ -58,7 +59,7 @@ app.use(xss());
 // Rate Limiting (Limit access in max variable within windowsMs milliseconds)
 const limiter = rateLimit({
     windowMs: 10*60*1000, // 10 mins
-    max: 100000
+    max: (process.env.NODE_ENV === 'production') ? 1000 : 100000
 });
 // app.use(limiter);
 // HPP (Prevent duplicate parameters in URL Path)
@@ -69,6 +70,7 @@ app.use('/api/dentists', dentists);
 app.use('/api/auth', auth);
 app.use('/api/bookings', bookings);
 app.use('/api/announcements', announcements);
+app.use('/api/reviews', reviews);
 
 const PORT = process.env.PORT || 5003;
 const server = app.listen(PORT, console.log('Server running in ', process.env.NODE_ENV, ' mode on port ', PORT));

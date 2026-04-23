@@ -9,14 +9,17 @@ const {
 } = require("../controllers/dentists");
 
 const bookings = require("./bookings");
+const reviews = require('./reviews');
 
 const router = express.Router();
 
 const { protect, authorize } = require("../middleware/auth");
 
 // Nested route
-// /api/dentists/:dentistId/bookings
+// POST /api/dentists/:dentistId/bookings
 router.use('/:dentistId/bookings', bookings);
+// POST /api/dentists/:dentistId/reviews
+router.use('/:dentistId/reviews', reviews);
 
 
 // GET all dentists
