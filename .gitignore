@@ -2,3 +2,4 @@
 node_modules/*
 # ignore config file (ใส่พวก username password)
 config/config.env
+coverage/*
