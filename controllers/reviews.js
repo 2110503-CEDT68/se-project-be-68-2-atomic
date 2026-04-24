@@ -15,6 +15,13 @@ exports.getReviews = async (req, res, next) => {
 
     // Loop over remove fields and delete them from reqQuery (remove whatever that matches in removeFields)
     removeFields.forEach(param=>delete reqQuery[param]);
+
+    Object.keys(reqQuery).forEach(key => {
+        if (reqQuery[key] === 'undefined' || reqQuery[key] === undefined) {
+            delete reqQuery[key];
+        }
+    });
+    
     console.log(reqQuery);
 
     // Create Query String
