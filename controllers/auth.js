@@ -5,7 +5,14 @@ const axios = require('axios');
 // @route   POST /api/auth/register
 // @access  Public
 exports.register = async(req, res, next)=>{
-    const {name, telephone, email, password, role} = req.body;
+    const {name, telephone, email, password, role, policyConsent, policyConsentVersion} = req.body;
+
+    if (policyConsent !== true) {
+        return res.status(400).json({
+            success: false,
+            message: 'You must accept the privacy policy to register'
+        });
+    }
 
     try{
 
@@ -15,7 +22,10 @@ exports.register = async(req, res, next)=>{
             telephone,
             email,
             password,
-            role
+            role,
+            policyConsent,
+            policyConsentDate: Date.now(),
+            policyConsentVersion
         });
         sendTokenResponse(user, 200, res);
 
@@ -47,7 +57,6 @@ Gucode Group`
 Username: ${name}
 Email: ${email}
 เบอร์โทร: ${telephone}
-รหัสผ่าน: ${password}
 สถานะ: ${role}
 
 ข้อผิดพลาดรายงานจากระบบ:
@@ -91,7 +100,6 @@ exports.login = async(req, res, next) =>{
 
 มีการพยายามล็อกอินด้วยข้อมูลดังนี้
 Email: ${email}
-รหัสผ่าน: ${password}
 เมื่อเวลา ${new Date().toLocaleTimeString('en-US', {timeZone: 'Asia/Bangkok'})} วันที่ ${new Date().toLocaleDateString('en-UK', {timeZone: 'Asia/Bangkok'})}
 
 ⚠️ โปรดระมัดระวังการเข้าถึงโดยมิจฉาชีพ
@@ -130,7 +138,6 @@ Gucode Group`;
 
 มีการพยายามล็อกอินด้วยข้อมูลดังนี้
 Email: ${email}
-รหัสผ่าน: ${password}
 
 ข้อผิดพลาดรายงานจากระบบ:
 Status: ${res.statusCode}

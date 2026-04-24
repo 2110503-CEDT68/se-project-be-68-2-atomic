@@ -33,6 +33,18 @@ const UserSchema = new mongoose.Schema({
         minlength: 6,
         select: false
     },
+    policyConsent: {
+        type: Boolean,
+        required: true
+    },
+    policyConsentDate: {
+        type: Date,
+        required: true
+    },
+    policyConsentVersion: {
+        type: String,
+        required: true
+    },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
     createAt:{
