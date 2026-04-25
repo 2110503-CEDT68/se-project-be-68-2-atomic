@@ -55,7 +55,9 @@ exports.getReviews = async (req, res, next) => {
 
     try{
         // Pagination (Cont.)
-        const total = await Review.countDocuments({isDeleted: false});
+        // const total = await Review.countDocuments({isDeleted: false});
+        const total = await Review.countDocuments({ isDeleted: false, ...JSON.parse(queryStr) });
+
         query = query.skip(startIndex).limit(limit); // Set the query to show in specified page range
 
         // Executing Query
@@ -74,6 +76,7 @@ exports.getReviews = async (req, res, next) => {
 
         res.status(200).json({
             success:true,
+            total: total,
             count: reviews.length,
             pagination,
             data: reviews
