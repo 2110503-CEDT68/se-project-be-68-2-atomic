@@ -18,20 +18,20 @@ components:
       properties:
         name:
           type: string
-          example: "Somchai Jaidee"
+          example: "swaggeradmintest1"
         telephone:
           type: string
           example: "0812345678"
         email:
           type: string
-          example: "somchai@example.com"
+          example: "swaggeradmintest1@example.com"
         password:
           type: string
-          example: "password1234"
+          example: "12345678"
         role:
           type: string
           enum: [user, admin]
-          example: "user"
+          example: "admin"
         policyConsent:
           type: boolean
           example: true
@@ -47,10 +47,10 @@ components:
       properties:
         name:
           type: string
-          example: "Dr. Somsri Rakdee"
+          example: "Dr. Somsri Mairak"
         yearsOfExperience:
           type: integer
-          example: 10
+          example: 4
         areaOfExpertise:
           type: string
           example: "Orthodontics"
@@ -59,7 +59,7 @@ components:
           example: "https://example.com/images/dr-somsri.jpg"
         averageRating:
           type: number
-          example: 4.8
+          example: 0.0
     Booking:
       type: object
       properties:
@@ -67,7 +67,7 @@ components:
           type: string
           format: date-time
           description: "Booking date (must be today or in the future)"
-          example: "2026-12-31T09:30:00.000Z"
+          example: "2026-12-23T09:30:00.000Z"
     Review:
       type: object
       properties:
@@ -81,7 +81,7 @@ components:
           example: "ประทับใจมากครับ"
         comment:
           type: string
-          example: "คุณหมอมือเบา อธิบายขั้นตอนละเอียด คลินิกสะอาดมาก"
+          example: "คุณหมอมือเบา อธิบายขั้นตอนละเอียด คลินิกสะอาดมากครับ"
     Announcement:
       type: object
       properties:
@@ -133,7 +133,7 @@ paths:
               properties:
                 email:
                   type: string
-                  example: "admin@example.com"
+                  example: "swaggeradmintest1@example.com"
                 password:
                   type: string
                   example: "12345678"
@@ -165,6 +165,17 @@ paths:
       summary: Get all dentists
       tags: [Dentists]
       security: []
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: Maximum number of records to retrieve
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Page number to retrieve
       responses:
         '200':
           description: List of all dentists retrieved
@@ -199,7 +210,7 @@ paths:
           required: true
           schema:
             type: string
-            example: "69d746494507341f9b887862"
+            example: "69efac2e8d91b892437c19e9"
       responses:
         '200':
           description: Dentist data retrieved
@@ -214,7 +225,7 @@ paths:
           required: true
           schema:
             type: string
-            example: "69d746494507341f9b887862"
+            example: "69efac2e8d91b892437c19e9"
       requestBody:
         content:
           application/json:
@@ -248,7 +259,7 @@ paths:
           required: true
           schema:
             type: string
-            example: "69d746494507341f9b887862"
+            example: "69efac2e8d91b892437c19e9"
       responses:
         '200':
           description: Dentist deleted successfully
@@ -305,7 +316,7 @@ paths:
           required: true
           schema:
             type: string
-            example: "69ef9652954dffd64afe35c2"
+            example: "69efae7d96ac9b74f8a6d4ba"
       responses:
         '200':
           description: Booking details retrieved
@@ -322,7 +333,7 @@ paths:
           required: true
           schema:
             type: string
-            example: "69ef9652954dffd64afe35c2"
+            example: "69efae7d96ac9b74f8a6d4ba"
       requestBody:
         content:
           application/json:
@@ -346,7 +357,7 @@ paths:
           required: true
           schema:
             type: string
-            example: "69ef9652954dffd64afe35c2"
+            example: "69efae7d96ac9b74f8a6d4ba"
       responses:
         '200':
           description: Booking deleted successfully
@@ -417,7 +428,7 @@ paths:
           required: true
           schema:
             type: string
-            example: "69ef97f1954dffd64afe35cb"
+            example: "69efb0006cd6ec4442c54411"
       responses:
         '200':
           description: Review details retrieved
@@ -432,7 +443,7 @@ paths:
           required: true
           schema:
             type: string
-            example: "69ef97f1954dffd64afe35cb"
+            example: "69efb0006cd6ec4442c54411"
       requestBody:
         content:
           application/json:
@@ -456,7 +467,7 @@ paths:
           required: true
           schema:
             type: string
-            example: "69ef97f1954dffd64afe35cb"
+            example: "69efb0006cd6ec4442c54411"
       responses:
         '200':
           description: Review deleted successfully
