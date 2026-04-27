@@ -1,0 +1,556 @@
+openapi: 3.0.0
+info:
+  title: Dentist Booking API
+  description: API Documentation
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:5003/api'
+    description: Local Server
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Somchai Jaidee"
+        telephone:
+          type: string
+          example: "0812345678"
+        email:
+          type: string
+          example: "somchai@example.com"
+        password:
+          type: string
+          example: "password1234"
+        role:
+          type: string
+          enum: [user, admin]
+          example: "user"
+        policyConsent:
+          type: boolean
+          example: true
+        policyConsentDate:
+          type: string
+          format: date-time
+          example: "2026-04-20T10:00:00.000Z"
+        policyConsentVersion:
+          type: string
+          example: "1.0"
+    Dentist:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Dr. Somsri Rakdee"
+        yearsOfExperience:
+          type: integer
+          example: 10
+        areaOfExpertise:
+          type: string
+          example: "Orthodontics"
+        imageURL:
+          type: string
+          example: "https://example.com/images/dr-somsri.jpg"
+        averageRating:
+          type: number
+          example: 4.8
+    Booking:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+          description: "Booking date (must be today or in the future)"
+          example: "2026-12-31T09:30:00.000Z"
+    Review:
+      type: object
+      properties:
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+          example: 5
+        title:
+          type: string
+          example: "ประทับใจมากครับ"
+        comment:
+          type: string
+          example: "คุณหมอมือเบา อธิบายขั้นตอนละเอียด คลินิกสะอาดมาก"
+    Announcement:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "TEST SWAGGER"
+        description:
+          type: string
+          example: "SWAGGER TEST"
+        logoURL:
+          type: string
+          example: "https://drive.google.com/uc?id=1CoAOhMVCp7H9GJelcLDysiLnmvbS1x48"
+        bannerURL:
+          type: string
+          example: "https://drive.google.com/uc?id=1CoAOhMVCp7H9GJelcLDysiLnmvbS1x48"
+
+security:
+  - bearerAuth: []
+
+paths:
+  # ================= AUTH =================
+  /auth/register:
+    post:
+      summary: Register a new user
+      tags: [Auth]
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User registered successfully
+        '400':
+          description: Bad Request
+  /auth/login:
+    post:
+      summary: Login user
+      tags: [Auth]
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "admin@example.com"
+                password:
+                  type: string
+                  example: "12345678"
+      responses:
+        '200':
+          description: Login successful
+        '400':
+          description: Invalid credentials
+  /auth/me:
+    get:
+      summary: Get current logged-in user
+      tags: [Auth]
+      responses:
+        '200':
+          description: User data retrieved successfully
+        '401':
+          description: Unauthorized
+  /auth/logout:
+    get:
+      summary: Logout user
+      tags: [Auth]
+      responses:
+        '200':
+          description: Logged out successfully
+
+  # ================= DENTISTS =================
+  /dentists:
+    get:
+      summary: Get all dentists
+      tags: [Dentists]
+      security: []
+      responses:
+        '200':
+          description: List of all dentists retrieved
+        '500':
+          description: Internal Server Error
+    post:
+      summary: Create a new dentist (Admin only)
+      tags: [Dentists]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dentist'
+      responses:
+        '201':
+          description: Dentist created successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /dentists/{id}:
+    get:
+      summary: Get a single dentist
+      tags: [Dentists]
+      security: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: "69d746494507341f9b887862"
+      responses:
+        '200':
+          description: Dentist data retrieved
+        '404':
+          description: Dentist not found
+    put:
+      summary: Update a dentist (Admin only)
+      tags: [Dentists]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: "69d746494507341f9b887862"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dentist'
+      responses:
+        '200':
+          description: Dentist updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Dentist'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Dentist not found
+    delete:
+      summary: Delete a dentist (Admin only)
+      tags: [Dentists]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: "69d746494507341f9b887862"
+      responses:
+        '200':
+          description: Dentist deleted successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Dentist not found
+
+  # ================= BOOKINGS =================
+  /dentists/{dentistId}/bookings:
+    post:
+      summary: Create a booking for a specific dentist
+      tags: [Bookings]
+      parameters:
+        - in: path
+          name: dentistId
+          required: true
+          schema:
+            type: string
+            example: "69d746494507341f9b887862"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Booking'
+      responses:
+        '201':
+          description: Booking created successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Dentist not found
+  /bookings:
+    get:
+      summary: Get all bookings (User sees own, Admin sees all)
+      tags: [Bookings]
+      responses:
+        '200':
+          description: List of bookings retrieved
+        '401':
+          description: Unauthorized
+  /bookings/{id}:
+    get:
+      summary: Get a single booking
+      tags: [Bookings]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: "69ef9652954dffd64afe35c2"
+      responses:
+        '200':
+          description: Booking details retrieved
+        '401':
+          description: Unauthorized
+        '404':
+          description: Booking not found
+    put:
+      summary: Update a booking
+      tags: [Bookings]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: "69ef9652954dffd64afe35c2"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Booking'
+      responses:
+        '200':
+          description: Booking updated successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Not authorized to update this booking
+        '404':
+          description: Booking not found
+    delete:
+      summary: Delete a booking
+      tags: [Bookings]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: "69ef9652954dffd64afe35c2"
+      responses:
+        '200':
+          description: Booking deleted successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Not authorized to delete this booking
+        '404':
+          description: Booking not found
+
+  # ================= REVIEWS =================
+  /dentists/{dentistId}/reviews:
+    post:
+      summary: Create a review for a dentist
+      tags: [Reviews]
+      parameters:
+        - in: path
+          name: dentistId
+          required: true
+          schema:
+            type: string
+            example: "69d746494507341f9b887862"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+      responses:
+        '201':
+          description: Review created successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Dentist not found
+  /reviews:
+    get:
+      summary: Get all reviews
+      tags: [Reviews]
+      security: []
+      responses:
+        '200':
+          description: List of reviews retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  count:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Review'
+  /reviews/{id}:
+    get:
+      summary: Get a single review
+      tags: [Reviews]
+      security: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: "69ef97f1954dffd64afe35cb"
+      responses:
+        '200':
+          description: Review details retrieved
+        '404':
+          description: Review not found
+    put:
+      summary: Update a review
+      tags: [Reviews]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: "69ef97f1954dffd64afe35cb"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+      responses:
+        '200':
+          description: Review updated successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Not authorized to update this review
+        '404':
+          description: Review not found
+    delete:
+      summary: Delete a review
+      tags: [Reviews]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: "69ef97f1954dffd64afe35cb"
+      responses:
+        '200':
+          description: Review deleted successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Not authorized to delete this review
+        '404':
+          description: Review not found
+
+  # ================= ANNOUNCEMENTS =================
+  /announcements:
+    get:
+      summary: Get all announcements
+      tags: [Announcements]
+      security: []
+      responses:
+        '200':
+          description: List of announcements retrieved
+    post:
+      summary: Create an announcement (Admin only)
+      tags: [Announcements]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Announcement'
+      responses:
+        '201':
+          description: Announcement created successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /announcements/{id}:
+    get:
+      summary: Get a single announcement
+      tags: [Announcements]
+      security: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: "69e5c64312534e1b60f1765e"
+      responses:
+        '200':
+          description: Announcement details retrieved
+        '404':
+          description: Announcement not found
+    put:
+      summary: Update an announcement (Admin only)
+      tags: [Announcements]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: "69e5c64312534e1b60f1765e"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Announcement'
+      responses:
+        '200':
+          description: Announcement updated successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Announcement not found
+    delete:
+      summary: Delete an announcement (Admin only)
+      tags: [Announcements]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: "69e5c64312534e1b60f1765e"
+      responses:
+        '200':
+          description: Announcement deleted successfully
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Announcement not found

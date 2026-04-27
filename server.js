@@ -28,6 +28,11 @@ const connectDB = require('./config/db');
 // Cookie
 const cookieParser = require('cookie-parser');
 
+// Swagger
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml');
+
 // Load env vars
 dotenv.config({path: './config/config.env'});
 
@@ -71,6 +76,9 @@ app.use('/api/auth', auth);
 app.use('/api/bookings', bookings);
 app.use('/api/announcements', announcements);
 app.use('/api/reviews', reviews);
+
+// Mount Swagger UI
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 const PORT = process.env.PORT || 5003;
 const server = app.listen(PORT, console.log('Server running in ', process.env.NODE_ENV, ' mode on port ', PORT));
