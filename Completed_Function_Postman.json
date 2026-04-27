@@ -1,0 +1,1249 @@
+{
+  "info": {
+    "_postman_id": "5737d2a2-31a4-4f42-8d2b-a9461a6a7cea",
+    "name": "Dentist",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52453235",
+    "_collection_link": "https://go.postman.co/collection/52453235-5737d2a2-31a4-4f42-8d2b-a9461a6a7cea?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Dentist",
+      "item": [
+        {
+          "name": "Get All Dentists",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.execution.setNextRequest(\"Create a new Dentist\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// pm.environment.set(\"TOKEN\", \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5YTU1YWQzODI3YjRmMTc4NTIzMDFiZSIsImlhdCI6MTc3MjQ1NzA2NSwiZXhwIjoxNzc1MDQ5MDY1fQ.8R43CI5qN96GLG0rzs5-41OC7Y-tPkEwygA-YiHCGhg\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/dentists",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "dentists"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get a Dentist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// pm.test(\"Status code is 200\", function () {",
+                  "//     pm.response.to.have.status(200);",
+                  "// });",
+                  "",
+                  "// pm.test(\"Successfully Gathered the Dentist Information\", function () {",
+                  "//     var jsonData = pm.response.json();",
+                  "//     pm.expect(jsonData.success).to.eql(true);",
+                  "// });",
+                  "// pm.execution.setNextRequest(\"Update a Dentist\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{URL}}/api/dentists/{{DentID}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "dentists",
+                "{{DentID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create a new Dentist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"DentID\", pm.response.json().data.id);",
+                  "",
+                  "// pm.test(\"Status code is 201\", function () {",
+                  "//     pm.response.to.have.status(201);",
+                  "// });",
+                  "",
+                  "// pm.test(\"Successfully Create a new Dentist\", function () {",
+                  "//     var jsonData = pm.response.json();",
+                  "//     pm.expect(jsonData.success).to.eql(true);",
+                  "// });",
+                  "// pm.execution.setNextRequest(\"Get a Dentist\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "JSON Type",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"{{$randomFullName}}\",\n    \"yearsOfExperience\": \"{{$randomInt}}\",\n    \"areaOfExpertise\": \"{{$randomAdjective}}\"\n}"
+            },
+            "url": {
+              "raw": "{{URL}}/api/dentists",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "dentists"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update a Dentist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// pm.test(\"Status code is 200\", function () {",
+                  "//     pm.response.to.have.status(200);",
+                  "// });",
+                  "",
+                  "// pm.test(\"Successfully Update the Dentist Information\", function () {",
+                  "//     var jsonData = pm.response.json();",
+                  "//     pm.expect(jsonData.success).to.eql(true);",
+                  "// });",
+                  "// pm.execution.setNextRequest(\"Delete a Dentist\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "JSON Type",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"{{$randomFirstName}}\",\n    \"yearsOfExperience\": \"{{$randomInt}}\",\n    \"areaOfExpertise\": \"{{$randomAdjective}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/dentists/{{DentID}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "dentists",
+                "{{DentID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a Dentist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// pm.test(\"Status code is 200\", function () {",
+                  "//     pm.response.to.have.status(200);",
+                  "// });",
+                  "",
+                  "// pm.test(\"Successfully Delete the Dentist\", function () {",
+                  "//     var jsonData = pm.response.json();",
+                  "//     pm.expect(jsonData.success).to.eql(true);",
+                  "// });",
+                  "",
+                  "// pm.environment.set(\"TOKEN\", pm.response.json().token);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/dentists/{{DentID}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "dentists",
+                "{{DentID}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Checking /api/dentists Path",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// pm.test(\"Status code is 400; Violate Phone Number Validation\", function () {",
+                  "//     pm.response.to.have.status(400);",
+                  "// });"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "JSON Type",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"admin\",\n    \"telephone\": \"0812345678\",\n    \"email\": \"admin@example.com\",\n    \"password\": \"12345678\",\n    \"role\": \"admin\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/auth/register",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"TOKEN\", pm.response.json().token);",
+                  "",
+                  "// pm.test(\"Status code is 200\", function () {",
+                  "//     pm.response.to.have.status(200);",
+                  "// });",
+                  "",
+                  "// pm.test(\"Successfully Login\", function () {",
+                  "//     var jsonData = pm.response.json();",
+                  "//     pm.expect(jsonData.success).to.eql(true);",
+                  "// });",
+                  "// pm.execution.setNextRequest(\"GetMe\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "JSON Type",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"narongdech.k@chula.ac.th\",\n    \"password\": \"12345678\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/auth/login",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetMe",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// pm.test(\"Status code is 200\", function () {",
+                  "//     pm.response.to.have.status(200);",
+                  "// });",
+                  "",
+                  "// pm.test(\"Successfully Get Me\", function () {",
+                  "//     var jsonData = pm.response.json();",
+                  "//     pm.expect(jsonData.success).to.eql(true);",
+                  "// });",
+                  "// // pm.execution.setNextRequest(\"Logout\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/auth/me",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"TOKEN\", pm.response.json().token);",
+                  "",
+                  "// pm.test(\"Status code is 200\", function () {",
+                  "//     pm.response.to.have.status(200);",
+                  "// });",
+                  "",
+                  "// pm.test(\"Successfully Logout\", function () {",
+                  "//     var jsonData = pm.response.json();",
+                  "//     pm.expect(jsonData.success).to.eql(true);",
+                  "// });"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{URL}}/api/auth/logout",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Booking",
+      "item": [
+        {
+          "name": "Get All Bookings",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// pm.test(\"Status code is 200\", function () {",
+                  "//     pm.response.to.have.status(200);",
+                  "// });",
+                  "",
+                  "// pm.execution.setNextRequest(\"Create a new Booking\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/api/bookings",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get a Booking",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// pm.test(\"Status code is 200\", function () {",
+                  "//     pm.response.to.have.status(200);",
+                  "// });",
+                  "",
+                  "// pm.test(\"Successfully Gathered the Booking Information\", function () {",
+                  "//     var jsonData = pm.response.json();",
+                  "//     pm.expect(jsonData.success).to.eql(true);",
+                  "// });",
+                  "// pm.execution.setNextRequest(\"Update a Booking\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/api/bookings/{{BookID}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "bookings",
+                "{{BookID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create a new Booking",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"BookID\", pm.response.json().data._id);",
+                  "",
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Successfully Create a new Booking\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.eql(true);",
+                  "});",
+                  "pm.execution.setNextRequest(\"Get a Booking\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "JSON Type",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"date\": \"{{$randomDateFuture}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/dentists/{{DentID}}/bookings",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "dentists",
+                "{{DentID}}",
+                "bookings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update a Booking",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// pm.test(\"Status code is 200\", function () {",
+                  "//     pm.response.to.have.status(200);",
+                  "// });",
+                  "",
+                  "// pm.test(\"Successfully Update the Booking\", function () {",
+                  "//     var jsonData = pm.response.json();",
+                  "//     pm.expect(jsonData.success).to.eql(true);",
+                  "// });",
+                  "// pm.execution.setNextRequest(\"Delete a Booking\");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "JSON Type",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"date\" : \"{{$randomDateFuture}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/bookings/{{BookID}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "bookings",
+                "{{BookID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a Booking",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// pm.test(\"Status code is 200\", function () {",
+                  "//     pm.response.to.have.status(200);",
+                  "// });",
+                  "",
+                  "// pm.test(\"Successfully Delete the Booking\", function () {",
+                  "//     var jsonData = pm.response.json();",
+                  "//     pm.expect(jsonData.success).to.eql(true);",
+                  "// });",
+                  "",
+                  "// pm.environment.set(\"TOKEN\", null);",
+                  "",
+                  "// pm.environment.set(\"DentID\", null);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/api/bookings/{{BookID}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "bookings",
+                "{{BookID}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Announcement",
+      "item": [
+        {
+          "name": "Get All Announcements",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/api/announcements",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "announcements"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get an Announcement",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/api/announcements/{{AnnounceID}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "announcements",
+                "{{AnnounceID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create a new Announcement",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"AnnounceID\", pm.response.json().data._id);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "JSON Type",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Test News\",\n    \"description\": \"Test Description\",\n    \"logoURL\": \"Test Logo\",\n    \"bannerURL\": \"Test Banner\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/announcements",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "announcements"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update an Announcement",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "JSON Type",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Test News Edited\",\n    \"description\": \"Test Description\",\n    \"logoURL\": \"Test Logo\",\n    \"bannerURL\": \"Test Banner\"\n}"
+            },
+            "url": {
+              "raw": "{{URL}}/api/announcements/{{AnnounceID}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "announcements",
+                "{{AnnounceID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete an Announcment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "JSON Type",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{URL}}/api/announcements/{{AnnounceID}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "announcements",
+                "{{AnnounceID}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "item": [
+        {
+          "name": "Get All Reviews",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/api/reviews?dentist_id=69e8f9ecad00451d04090008",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "reviews"
+              ],
+              "query": [
+                {
+                  "key": "dentist_id",
+                  "value": "69e8f9ecad00451d04090008"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get a Review",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/api/reviews/{{ReviewID}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "reviews",
+                "{{ReviewID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create a new Review",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.environment.set(\"ReviewID\", pm.response.json().data._id);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "JSON Type",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"rating\": 5,\n    \"title\": \"{{$randomAdjective}}\",\n    \"comment\": \"{{$randomCatchPhraseNoun}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/dentists/{{DentID}}/reviews",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "dentists",
+                "{{DentID}}",
+                "reviews"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update a Review",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "JSON Type",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"rating\": 5,\n    \"title\": \"{{$randomAdjective}}\",\n    \"comment\": \"{{$randomCatchPhraseNoun}}\"\n}"
+            },
+            "url": {
+              "raw": "{{URL}}/api/reviews/{{ReviewID}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "reviews",
+                "{{ReviewID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a Review",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "description": "JSON Type",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{URL}}/api/reviews/{{ReviewID}}",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "api",
+                "reviews",
+                "{{ReviewID}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
